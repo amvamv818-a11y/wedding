@@ -6,6 +6,8 @@
 <title>Дмитрий и Елизавета — свадьба 07.07.2027</title>
 <meta name="description" content="Свадебное приглашение Дмитрия и Елизаветы: 7 июля 2027, 20:00, ресторан «Ниагара», г. Орск. Подтвердите присутствие.">
 <link rel="preload" as="image" href="photo.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="envelope-pattern.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="wax-seal.jpg">
 <link rel="preload" as="audio" href="music.m4a" type="audio/mp4">
 <style>
   :root{
@@ -36,52 +38,94 @@
 
   /* ---------- INTRO / ENVELOPE + WAX SEAL ---------- */
   .intro{
-    position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:22px;
-    background:radial-gradient(120% 100% at 50% 40%, #3d4224 0%, var(--haki-deep) 70%);
-    transition:opacity .9s ease, visibility .9s;cursor:pointer;overflow:hidden;
+    position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:26px;
+    background:radial-gradient(120% 100% at 50% 38%, #2a2e16 0%, #141708 78%);
+    transition:opacity 1.2s ease, visibility 1.2s;cursor:pointer;overflow:hidden;
+    perspective:1500px;
   }
   .intro.gone{opacity:0;visibility:hidden}
-  .envelope{position:absolute;inset:0;z-index:0;perspective:1400px;transform-style:preserve-3d}
+  .envelope{
+    position:absolute;inset:0;z-index:0;
+    perspective:1500px;transform-style:preserve-3d;
+    background:url('envelope-pattern.jpg') center/cover no-repeat;
+    transition:transform 1.5s cubic-bezier(.65,.05,.36,1), opacity 1.5s ease;
+  }
+  .intro.opening .envelope{transform:scale(1.08);opacity:0;transition-delay:2.15s}
   .flap{
-    position:absolute;inset:-1px;
-    background:
-      repeating-linear-gradient(45deg, rgba(194,162,74,.10) 0 2px, transparent 2px 18px),
-      radial-gradient(140% 140% at 50% 50%, #5a6037 0%, #3d4226 42%, #22250f 88%);
-    transition:transform .62s cubic-bezier(.45,0,.2,1), opacity .62s ease;
+    position:absolute;inset:-1px;z-index:1;
+    transition:transform 1.45s cubic-bezier(.65,.05,.36,1), opacity 1.45s ease, filter 1.45s ease;
     will-change:transform;
   }
-  .flap-top{clip-path:polygon(0 0,100% 0,50% 50%)}
-  .flap-bottom{clip-path:polygon(0 100%,100% 100%,50% 50%)}
-  .flap-left{clip-path:polygon(0 0,0 100%,50% 50%)}
-  .flap-right{clip-path:polygon(100% 0,100% 100%,50% 50%)}
+  .flap-top{clip-path:polygon(0 0,100% 0,50% 50%);background:linear-gradient(to bottom, rgba(0,0,0,.34), rgba(0,0,0,.04) 66%),url('envelope-pattern.jpg') center/cover no-repeat}
+  .flap-bottom{clip-path:polygon(0 100%,100% 100%,50% 50%);background:linear-gradient(to top, rgba(0,0,0,.36), rgba(0,0,0,.04) 66%),url('envelope-pattern.jpg') center/cover no-repeat}
+  .flap-left{clip-path:polygon(0 0,0 100%,50% 50%);background:linear-gradient(to right, rgba(0,0,0,.34), rgba(0,0,0,.04) 66%),url('envelope-pattern.jpg') center/cover no-repeat}
+  .flap-right{clip-path:polygon(100% 0,100% 100%,50% 50%);background:linear-gradient(to left, rgba(0,0,0,.32), rgba(0,0,0,.04) 66%),url('envelope-pattern.jpg') center/cover no-repeat}
   .envelope::after{
-    content:"";position:absolute;inset:0;pointer-events:none;
-    background:
-      radial-gradient(42% 32% at 0% 0%, rgba(194,162,74,.22), transparent 70%),
-      radial-gradient(42% 32% at 100% 0%, rgba(194,162,74,.22), transparent 70%),
-      radial-gradient(42% 32% at 0% 100%, rgba(194,162,74,.22), transparent 70%),
-      radial-gradient(42% 32% at 100% 100%, rgba(194,162,74,.22), transparent 70%);
+    content:"";position:absolute;inset:0;pointer-events:none;z-index:3;
+    background:radial-gradient(118% 86% at 50% 44%, transparent 24%, rgba(20,23,8,.5) 78%, rgba(12,14,5,.84) 100%);
+    transition:opacity .55s ease;
   }
+  .intro.opening .envelope::after{opacity:0;transition-delay:.25s;transition-duration:1.3s}
+  .letter{
+    position:absolute;left:50%;top:50%;translate:-50% -50%;width:min(70vw,430px);height:min(52vh,470px);z-index:0;pointer-events:none;opacity:0;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+    background:linear-gradient(158deg,#fdf6e4 0%,#f4e8cb 52%,#e6d6b2 100%);
+    border:1px solid rgba(160,132,72,.35);border-radius:4px;
+    box-shadow:0 22px 46px rgba(0,0,0,.38),inset 0 0 0 7px rgba(255,255,255,.6),inset 0 0 46px rgba(150,120,60,.2);
+    transition:opacity .9s ease .4s, transform 1.35s cubic-bezier(.5,.05,.35,1) .45s;
+    transform:translateY(8%);
+  }
+  .letter::before{
+    content:"";position:absolute;inset:13px;border:1px solid rgba(160,132,72,.3);border-radius:2px;
+  }
+  .letter-mono{
+    font-family:var(--serif);font-weight:bold;letter-spacing:.1em;
+    font-size:clamp(1.5rem,5.4vw,2.4rem);color:#4a3810;
+    text-shadow:0 1px 0 rgba(255,255,255,.75),0 -1px 1px rgba(90,70,25,.35);
+  }
+  .letter-date{
+    font-family:var(--sans);font-size:.64rem;letter-spacing:.26em;text-transform:uppercase;color:#66501f;
+  }
+  .letter-note{
+    font-family:var(--sans);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#77602c;margin-top:4px;
+  }
+  .intro.opening .letter{opacity:1;transform:translateY(-18%)}
   .envelope::before{
     content:"";position:absolute;inset:14px;z-index:3;pointer-events:none;
-    border:1px solid rgba(226,210,154,.28);
-    box-shadow:inset 0 0 34px rgba(0,0,0,.38), inset 0 0 0 5px rgba(255,246,212,.03);
+    border:1px solid rgba(226,210,154,.16);
+    box-shadow:inset 0 0 34px rgba(0,0,0,.3);
     transition:opacity .45s ease;
   }
   .intro.opening .envelope::before{opacity:0}
-  .ornaments{position:absolute;inset:0;z-index:3;pointer-events:none;transition:opacity .45s ease}
-  .intro.opening .ornaments{opacity:0}
-  .orn{position:absolute;width:clamp(92px,27vw,180px);height:auto;color:rgba(226,210,154,.48);filter:drop-shadow(0 1px 0 rgba(0,0,0,.55)) drop-shadow(0 -1px 0 rgba(255,242,205,.22))}
-  .orn-tl{top:16px;left:16px}
-  .orn-tr{top:16px;right:16px;transform:scaleX(-1)}
-  .orn-bl{bottom:16px;left:16px;transform:scaleY(-1)}
-  .orn-br{bottom:16px;right:16px;transform:scale(-1,-1)}
-  .orn-top,.orn-bottom{width:clamp(150px,54vw,290px);color:rgba(226,210,154,.42);left:50%}
-  .orn-top{top:clamp(34px,7vw,58px);transform:translateX(-50%)}
-  .orn-bottom{bottom:clamp(34px,7vw,58px);transform:translateX(-50%) scaleY(-1)}
-  .orn-left,.orn-right{width:clamp(44px,13vw,80px);height:auto;color:rgba(226,210,154,.38);top:50%}
-  .orn-left{left:12px;transform:translateY(-50%)}
-  .orn-right{right:12px;transform:translateY(-50%) scaleX(-1)}
+  .sweep{
+    position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;
+    background:url('envelope-pattern.jpg') center/cover no-repeat;
+    filter:brightness(2.1) contrast(1.2) saturate(.9);
+    -webkit-mask-image:linear-gradient(112deg, transparent 40%, rgba(0,0,0,.95) 50%, transparent 60%);
+    mask-image:linear-gradient(112deg, transparent 40%, rgba(0,0,0,.95) 50%, transparent 60%);
+    -webkit-mask-size:260% 100%;mask-size:260% 100%;
+    -webkit-mask-position:135% 0;mask-position:135% 0;
+    transition:opacity .25s ease;
+  }
+
+  @keyframes sheen{
+    from{-webkit-mask-position:135% 0;mask-position:135% 0}
+    to{-webkit-mask-position:-35% 0;mask-position:-35% 0}
+  }
+  .ribbon{
+    position:absolute;left:-10%;width:120%;top:36%;height:38%;z-index:4;pointer-events:none;
+    filter:blur(1.2px) drop-shadow(0 0 26px rgba(255,232,170,.8));
+    mix-blend-mode:screen;opacity:1;
+  }
+
+  @keyframes ribbonFlow{
+    0%{transform:translateY(6px) scaleY(.92);opacity:.55}
+    45%{transform:translateY(-4px) scaleY(1.04);opacity:1}
+    100%{transform:translateY(2px) scaleY(.98);opacity:.8}
+  }
+  .intro.opening .ribbon{animation:ribbonOut .5s ease forwards}
+  @keyframes ribbonOut{to{opacity:0;transform:scaleY(.7)}}
+  .intro.opening .sweep{opacity:0}
   .sparkles{
     position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.45;
     background-image:radial-gradient(circle, rgba(232,216,162,.7) 0 1px, transparent 1.6px);
@@ -116,96 +160,80 @@
     background:radial-gradient(circle, rgba(255,238,182,.95) 0%, rgba(216,182,92,.5) 24%, rgba(90,80,40,0) 58%);
     transition:opacity .55s ease, transform .85s cubic-bezier(.4,0,.2,1);
   }
-  .intro.opening .glow{opacity:1;transform:translate(-50%,-50%) scale(1)}
-  .intro.opening .flap-top{transform:translateY(-62%) rotateX(-16deg);opacity:.12}
-  .intro.opening .flap-bottom{transform:translateY(62%) rotateX(16deg);opacity:.12}
-  .intro.opening .flap-left{transform:translateX(-58%) rotateY(16deg);opacity:.12}
-  .intro.opening .flap-right{transform:translateX(58%) rotateY(-16deg);opacity:.12}
+  .intro.opening .glow{opacity:1;transform:translate(-50%,-50%) scale(1.05);transition-delay:.35s;transition-duration:1s}
+  .intro.opening .flap-top{
+    transform-origin:50% 0;
+    transform:rotateX(-172deg);
+    filter:brightness(1.7);
+    transition-duration:1.45s;
+    transition-delay:.15s;
+  }
+  .intro.opening .flap-left{transform:translateX(-106%);opacity:.85;transition-duration:1.2s;transition-delay:.75s}
+  .intro.opening .flap-right{transform:translateX(106%);opacity:.85;transition-duration:1.2s;transition-delay:.75s}
+  .intro.opening .flap-bottom{
+    transform-origin:50% 100%;
+    transform:rotateX(96deg);
+    opacity:.9;
+    transition-duration:1.2s;
+    transition-delay:.75s;
+  }
   .seal{
-    position:relative;z-index:5;width:min(46vw,240px);height:min(46vw,240px);display:flex;align-items:center;justify-content:center;
-    background:
-      repeating-conic-gradient(from 8deg at 50% 50%, rgba(255,248,222,.09) 0deg 5deg, rgba(84,64,20,.07) 5deg 10deg),
-      radial-gradient(circle at 31% 25%, #f8e9bb 0%, #e7cc8b 26%, var(--gold) 55%, #97792f 82%, #69531d 100%);
+    position:absolute;left:50%;top:50%;translate:-50% -50%;
+    z-index:5;width:min(46vw,240px);aspect-ratio:1;display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 34% 28%, #4a3c18 0%, #332912 55%, #1d1608 100%);
     border-radius:52% 48% 47% 53% / 49% 52% 48% 51%;
     box-shadow:
-      0 26px 60px rgba(0,0,0,.5),
-      0 6px 0 rgba(100,78,26,.55),
-      0 0 0 3px rgba(226,210,154,.09),
-      inset 0 3px 10px rgba(255,252,232,.62),
-      inset 0 -12px 26px rgba(58,43,10,.6),
-      inset 0 0 44px rgba(90,70,20,.55);
+      0 26px 60px rgba(0,0,0,.6),
+      0 6px 0 rgba(90,70,22,.45),
+      inset 0 2px 8px rgba(255,244,205,.18),
+      inset 0 -12px 26px rgba(20,14,4,.7);
     animation:sealIn 1.1s ease both, sealFloat 3.4s ease-in-out 1.2s infinite;
+    overflow:hidden;
   }
   .seal::before{
-    content:"";position:absolute;inset:9%;border-radius:inherit;
-    border:1.5px solid rgba(76,57,16,.52);
-    box-shadow:
-      inset 0 0 0 4px rgba(255,248,222,.18),
-      inset 0 2px 4px rgba(255,251,232,.35),
-      inset 0 -3px 6px rgba(58,43,10,.45),
-      inset 0 0 12px rgba(255,246,214,.2);
-    opacity:.95;
+    content:"";position:absolute;inset:0;
+    background:url('wax-seal.jpg') center/124% no-repeat;
+    mix-blend-mode:screen;
+    filter:contrast(1.12) saturate(1.05);
+    border-radius:inherit;
   }
   .seal::after{
     content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
     background:
-      radial-gradient(58% 38% at 20% 16%, rgba(255,253,238,.6), transparent 62%),
-      radial-gradient(34% 24% at 72% 22%, rgba(255,250,228,.32), transparent 72%),
-      radial-gradient(46% 34% at 84% 90%, rgba(74,56,16,.34), transparent 66%),
-      radial-gradient(24% 18% at 40% 88%, rgba(70,52,14,.26), transparent 70%),
-      repeating-conic-gradient(from 0deg at 50% 50%, rgba(255,247,218,.05) 0deg 4deg, rgba(60,44,10,.06) 4deg 8deg);
-  }
-  .seal-inner{
-    position:relative;z-index:1;
-    font-family:var(--serif);font-size:clamp(2.2rem,8.5vw,4.2rem);color:#453408;
-    letter-spacing:.04em;font-weight:bold;line-height:1;display:flex;align-items:center;justify-content:center;
-    text-shadow:
-      0 1px 1px rgba(255,252,235,.65),
-      0 -1px 1px rgba(255,250,230,.35),
-      0 -2px 3px rgba(48,36,6,.7),
-      0 0 20px rgba(255,238,180,.22);
+      radial-gradient(56% 36% at 22% 14%, rgba(255,253,238,.42), transparent 62%),
+      radial-gradient(40% 26% at 76% 20%, rgba(255,240,200,.2), transparent 70%),
+      radial-gradient(46% 34% at 84% 90%, rgba(34,24,6,.4), transparent 66%),
+      radial-gradient(100% 100% at 50% 50%, transparent 62%, rgba(20,14,4,.35) 100%);
   }
   @keyframes sealIn{from{transform:scale(.6) rotate(-14deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
   @keyframes sealFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
   .intro-hint{
-    position:relative;z-index:5;
+    position:absolute;left:0;right:0;bottom:max(7%,calc(env(safe-area-inset-bottom) + 24px));z-index:6;
     font-family:var(--sans);color:var(--gold-light);letter-spacing:.22em;text-transform:uppercase;
     font-size:.78rem;opacity:.9;animation:hintPulse 2.2s ease-in-out infinite;text-align:center;
+    text-shadow:0 2px 10px rgba(0,0,0,.75);
   }
   @keyframes hintPulse{0%,100%{opacity:.5}50%{opacity:1}}
-  /* ---------- волна свечения по узорам перед открытием ---------- */
-  .intro.lighting .orn{animation:ornGlow 1.3s ease both}
-  .intro.lighting .orn-tl{animation-delay:0ms}
-  .intro.lighting .orn-tr{animation-delay:100ms}
-  .intro.lighting .orn-top{animation-delay:200ms}
-  .intro.lighting .orn-right{animation-delay:300ms}
-  .intro.lighting .orn-bottom{animation-delay:400ms}
-  .intro.lighting .orn-left{animation-delay:500ms}
-  .intro.lighting .orn-bl{animation-delay:600ms}
-  .intro.lighting .orn-br{animation-delay:700ms}
-  @keyframes ornGlow{
-    0%,100%{filter:drop-shadow(0 1px 0 rgba(0,0,0,.55)) drop-shadow(0 -1px 0 rgba(255,242,205,.22));opacity:.85}
-    45%{filter:drop-shadow(0 0 14px rgba(255,238,182,.95)) drop-shadow(0 1px 0 rgba(0,0,0,.5)) brightness(1.75);opacity:1}
-  }
-  .intro.lighting .envelope::before{animation:rimGlow 1.3s ease both}
+  /* ---------- волна свечения перед открытием ---------- */
+
   @keyframes rimGlow{
-    0%,100%{box-shadow:0 0 0 rgba(255,240,190,0)}
-    45%{box-shadow:0 0 24px rgba(255,238,180,.62), inset 0 0 18px rgba(255,238,180,.34)}
+    0%,100%{box-shadow:inset 0 0 34px rgba(0,0,0,.3)}
+    45%{box-shadow:inset 0 0 26px rgba(255,238,180,.3), 0 0 22px rgba(255,238,180,.28)}
   }
-  .intro.lighting .sparkles{animation:sparkGlow 1.3s ease both}
-  @keyframes sparkGlow{0%,100%{opacity:.45}45%{opacity:.95}}
-  .intro.lighting .seal{animation:sealBreath 1.3s ease both}
+
+  @keyframes sparkGlow{0%,100%{opacity:.32}45%{opacity:.8}}
+
   @keyframes sealBreath{
     0%{transform:scale(1)}
     45%{transform:scale(1.09);filter:brightness(1.2) contrast(1.05)}
     100%{transform:scale(1)}
   }
-  .intro.opening .seal{animation:sealOpen .55s ease forwards}
+  .intro.opening .seal{animation:sealSlide 1.4s cubic-bezier(.55,.05,.35,1) forwards}
   .intro.opening .intro-hint{animation:hintFade .3s ease forwards}
-  @keyframes sealOpen{
-    0%{transform:scale(1) rotate(0);opacity:1}
-    40%{transform:scale(1.07) rotate(-3deg);opacity:1}
-    100%{transform:scale(.35) rotate(9deg);opacity:0}
+  @keyframes sealSlide{
+    0%{transform:translate(0,0) scale(1);opacity:1}
+    45%{transform:translate(46%,12%) scale(.95);opacity:.8}
+    100%{transform:translate(86%,22%) scale(.72);opacity:0}
   }
   @keyframes hintFade{to{opacity:0}}
 
@@ -422,7 +450,7 @@
     .intro{transition:none}
     .seal{animation:none}
     .flap,.glow,.seams,.ornaments,.sparkles{transition:none}
-    .intro.lighting .orn,.intro.lighting .seal,.intro.lighting .envelope::before,.intro.lighting .sparkles{animation:none}
+
     .intro.opening .flap{transform:none}
     .hero-inner > *{opacity:1;animation:none}
     .monogram span,.place-pin{animation:none}
@@ -443,6 +471,7 @@
 
 <div class="intro" id="intro" role="button" tabindex="0" aria-label="Открыть приглашение">
   <div class="envelope" aria-hidden="true">
+<div class="letter"><span class="letter-mono">Д &amp; Е</span><span class="letter-date">07 · 07 · 2027</span><span class="letter-note">Приглашение</span></div>
     <div class="sparkles"></div>
     <div class="flap flap-top"></div>
     <div class="flap flap-bottom"></div>
@@ -450,116 +479,24 @@
     <div class="flap flap-right"></div>
     <div class="seams"></div>
     <div class="glow"></div>
-    <div class="ornaments">
-      <svg class="orn orn-tl" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 3C40 10 76 30 102 64"/>
-        <path d="M3 3C10 40 30 76 64 102"/>
-        <path d="M102 64c7 5 9 13 6 20"/>
-        <path d="M64 102c5 7 13 9 20 6"/>
-        <path d="M24 7c10 8 15 19 14 31-9-5-15-17-14-31Z"/>
-        <path d="M7 24c8 10 19 15 31 14-5-9-17-15-31-14Z"/>
-        <path d="M55 29c9 10 12 22 8 33-7-7-10-20-8-33Z"/>
-        <path d="M29 55c10 9 22 12 33 8-7-7-20-10-33-8Z"/>
-        <path d="M81 45c11 7 18 18 19 30-9-5-17-16-19-30Z"/>
-        <path d="M45 81c7 11 18 18 30 19-5-9-16-17-30-19Z"/>
-        <circle cx="110" cy="92" r="1.6"/>
-        <circle cx="92" cy="110" r="1.6"/>
-      </svg>
-      <svg class="orn orn-tr" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 3C40 10 76 30 102 64"/>
-        <path d="M3 3C10 40 30 76 64 102"/>
-        <path d="M102 64c7 5 9 13 6 20"/>
-        <path d="M64 102c5 7 13 9 20 6"/>
-        <path d="M24 7c10 8 15 19 14 31-9-5-15-17-14-31Z"/>
-        <path d="M7 24c8 10 19 15 31 14-5-9-17-15-31-14Z"/>
-        <path d="M55 29c9 10 12 22 8 33-7-7-10-20-8-33Z"/>
-        <path d="M29 55c10 9 22 12 33 8-7-7-20-10-33-8Z"/>
-        <path d="M81 45c11 7 18 18 19 30-9-5-17-16-19-30Z"/>
-        <path d="M45 81c7 11 18 18 30 19-5-9-16-17-30-19Z"/>
-        <circle cx="110" cy="92" r="1.6"/>
-        <circle cx="92" cy="110" r="1.6"/>
-      </svg>
-      <svg class="orn orn-bl" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 3C40 10 76 30 102 64"/>
-        <path d="M3 3C10 40 30 76 64 102"/>
-        <path d="M102 64c7 5 9 13 6 20"/>
-        <path d="M64 102c5 7 13 9 20 6"/>
-        <path d="M24 7c10 8 15 19 14 31-9-5-15-17-14-31Z"/>
-        <path d="M7 24c8 10 19 15 31 14-5-9-17-15-31-14Z"/>
-        <path d="M55 29c9 10 12 22 8 33-7-7-10-20-8-33Z"/>
-        <path d="M29 55c10 9 22 12 33 8-7-7-20-10-33-8Z"/>
-        <path d="M81 45c11 7 18 18 19 30-9-5-17-16-19-30Z"/>
-        <path d="M45 81c7 11 18 18 30 19-5-9-16-17-30-19Z"/>
-        <circle cx="110" cy="92" r="1.6"/>
-        <circle cx="92" cy="110" r="1.6"/>
-      </svg>
-      <svg class="orn orn-br" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M3 3C40 10 76 30 102 64"/>
-        <path d="M3 3C10 40 30 76 64 102"/>
-        <path d="M102 64c7 5 9 13 6 20"/>
-        <path d="M64 102c5 7 13 9 20 6"/>
-        <path d="M24 7c10 8 15 19 14 31-9-5-15-17-14-31Z"/>
-        <path d="M7 24c8 10 19 15 31 14-5-9-17-15-31-14Z"/>
-        <path d="M55 29c9 10 12 22 8 33-7-7-10-20-8-33Z"/>
-        <path d="M29 55c10 9 22 12 33 8-7-7-20-10-33-8Z"/>
-        <path d="M81 45c11 7 18 18 19 30-9-5-17-16-19-30Z"/>
-        <path d="M45 81c7 11 18 18 30 19-5-9-16-17-30-19Z"/>
-        <circle cx="110" cy="92" r="1.6"/>
-        <circle cx="92" cy="110" r="1.6"/>
-      </svg>
-      <svg class="orn orn-top" viewBox="0 0 200 64" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M100 4c-24 0-42 10-52 26"/>
-        <path d="M100 4c24 0 42 10 52 26"/>
-        <path d="M48 30c-9 2-16 9-20 18"/>
-        <path d="M152 30c9 2 16 9 20 18"/>
-        <path d="M78 13c-6 9-15 13-26 12 4-9 14-14 26-12Z"/>
-        <path d="M122 13c6 9 15 13 26 12-4-9-14-14-26-12Z"/>
-        <path d="M58 27c-8 6-12 15-11 24 8-5 12-14 11-24Z"/>
-        <path d="M142 27c8 6 12 15 11 24-8-5-12-14-11-24Z"/>
-        <path d="M100 10c-3 8-3 16 0 24 3-8 3-16 0-24Z"/>
-        <circle cx="100" cy="4" r="2"/>
-      </svg>
-      <svg class="orn orn-bottom" viewBox="0 0 200 64" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M100 4c-24 0-42 10-52 26"/>
-        <path d="M100 4c24 0 42 10 52 26"/>
-        <path d="M48 30c-9 2-16 9-20 18"/>
-        <path d="M152 30c9 2 16 9 20 18"/>
-        <path d="M78 13c-6 9-15 13-26 12 4-9 14-14 26-12Z"/>
-        <path d="M122 13c6 9 15 13 26 12-4-9-14-14-26-12Z"/>
-        <path d="M58 27c-8 6-12 15-11 24 8-5 12-14 11-24Z"/>
-        <path d="M142 27c8 6 12 15 11 24-8-5-12-14-11-24Z"/>
-        <path d="M100 10c-3 8-3 16 0 24 3-8 3-16 0-24Z"/>
-        <circle cx="100" cy="4" r="2"/>
-      </svg>
-      <svg class="orn orn-left" viewBox="0 0 64 200" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 100C4 72 15 50 34 38"/>
-        <path d="M4 100C4 128 15 150 34 162"/>
-        <path d="M4 100h12"/>
-        <path d="M20 66c-2 10-8 17-17 19 3-10 8-17 17-19Z"/>
-        <path d="M30 48c-2 9-7 15-15 17 3-8 7-14 15-17Z"/>
-        <path d="M20 134c-2-10-8-17-17-19 3 10 8 17 17 19Z"/>
-        <path d="M30 152c-2-9-7-15-15-17 3 8 7 14 15 17Z"/>
-        <path d="M42 30c-1 6-4 10-9 12 2-6 4-10 9-12Z"/>
-        <path d="M42 170c-1-6-4-10-9-12 2 6 4 10 9 12Z"/>
-        <circle cx="50" cy="26" r="1.6"/>
-        <circle cx="50" cy="174" r="1.6"/>
-      </svg>
-      <svg class="orn orn-right" viewBox="0 0 64 200" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M4 100C4 72 15 50 34 38"/>
-        <path d="M4 100C4 128 15 150 34 162"/>
-        <path d="M4 100h12"/>
-        <path d="M20 66c-2 10-8 17-17 19 3-10 8-17 17-19Z"/>
-        <path d="M30 48c-2 9-7 15-15 17 3-8 7-14 15-17Z"/>
-        <path d="M20 134c-2-10-8-17-17-19 3 10 8 17 17 19Z"/>
-        <path d="M30 152c-2-9-7-15-15-17 3 8 7 14 15 17Z"/>
-        <path d="M42 30c-1 6-4 10-9 12 2-6 4-10 9-12Z"/>
-        <path d="M42 170c-1-6-4-10-9-12 2 6 4 10 9 12Z"/>
-        <circle cx="50" cy="26" r="1.6"/>
-        <circle cx="50" cy="174" r="1.6"/>
-      </svg>
-    </div>
+    <div class="sweep"></div>
+    <svg class="ribbon" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="ribGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#f7e9bd" stop-opacity="0"/>
+          <stop offset=".22" stop-color="#f9edc8" stop-opacity=".55"/>
+          <stop offset=".5" stop-color="#fffdf0" stop-opacity="1"/>
+          <stop offset=".78" stop-color="#ecd394" stop-opacity=".6"/>
+          <stop offset="1" stop-color="#f7e9bd" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path d="M-40 250C180 150 340 320 540 210S860 130 1040 220" stroke="url(#ribGrad)" stroke-width="36" fill="none" opacity=".72"/>
+      <path d="M-40 286C200 196 360 372 580 252S880 176 1040 268" stroke="url(#ribGrad)" stroke-width="17" fill="none" opacity=".95"/>
+      <path d="M-40 216C170 130 330 286 520 182S850 108 1040 190" stroke="url(#ribGrad)" stroke-width="9" fill="none" opacity=".72"/>
+      <path d="M-40 330C170 260 380 400 600 300S890 230 1040 320" stroke="url(#ribGrad)" stroke-width="5" fill="none" opacity=".55"/>
+    </svg>
+    <div class="seal"></div>
   </div>
-  <div class="seal"><div class="seal-inner">Д &amp; Е</div></div>
   <p class="intro-hint">Нажмите, чтобы открыть приглашение</p>
 </div>
 
@@ -864,17 +801,14 @@
   var VOTE_SERVER_URL = "";
   var intro = document.getElementById("intro");
   function closeIntro(){
-    if (intro.classList.contains("gone") || intro.classList.contains("opening") || intro.classList.contains("lighting")) return;
-    intro.classList.add("lighting");
+    if (intro.classList.contains("gone") || intro.classList.contains("opening")) return;
+    intro.classList.add("opening");
     document.removeEventListener("keydown", onIntroKey, true);
     startMusic();
     setTimeout(function(){
-      intro.classList.add("opening");
-      setTimeout(function(){
-        intro.classList.add("gone");
-        document.body.style.overflow = "";
-      }, 780);
-    }, 1250);
+      intro.classList.add("gone");
+      document.body.style.overflow = "";
+    }, 3550);
   }
   function onIntroKey(e){
     if (e.key === "Enter" || e.key === " " || e.key === "Escape"){ e.preventDefault(); closeIntro(); }
