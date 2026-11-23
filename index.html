@@ -764,6 +764,15 @@
           <span class="poll-pct">0%</span>
         </div>
       </div>
+      <div class="poll-opt" data-votes="0">
+        <input type="radio" name="drink" id="d5" value="juice">
+        <div class="poll-fill"></div>
+        <div class="poll-row">
+          <span class="poll-radio" aria-hidden="true"></span>
+          <span class="poll-name"><label for="d5">Сок</label></span>
+          <span class="poll-pct">0%</span>
+        </div>
+      </div>
     </form>
     <p class="poll-voted" id="mt_wed_drinks_voted" role="status">Спасибо за голос! Вы выбрали <strong></strong>.</p>
     <p class="poll-note">Голоса хранятся в этом браузере. У каждого устройства своя статистика.</p>
@@ -934,6 +943,17 @@
   var form = document.getElementById("rsvp-form");
   var outcome = document.getElementById("rsvp-outcome");
   var guestsField = document.getElementById("guests-field");
+  function rememberGuest(){
+    if (!db) return;
+    var nEl = document.getElementById("rsvp-name");
+    var sEl = document.getElementById("rsvp-surname");
+    var n = ((nEl && nEl.value ? nEl.value.trim() : "") + " " + (sEl && sEl.value ? sEl.value.trim() : "")).trim();
+    if (n){ try { db.setItem("mt_wed_guest_name", n); } catch(err){} }
+  }
+  ["rsvp-name","rsvp-surname"].forEach(function(id){
+    var el = document.getElementById(id);
+    if (el) el.addEventListener("blur", rememberGuest);
+  });
   form.addEventListener("change", function(e){
     if (e.target && e.target.name === "attend"){
       guestsField.style.display = e.target.value === "no" ? "none" : "";
@@ -959,6 +979,7 @@
         var all = JSON.parse(db.getItem("mt_wed_rsvp") || "[]");
         all.push({ name:fullName, attend:attend, guests:guests, when:new Date().toISOString() });
         db.setItem("mt_wed_rsvp", JSON.stringify(all.slice(-60)));
+        db.setItem("mt_wed_guest_name", fullName);
       } catch(err){}
     }
     outcome.textContent = fullName + ", спасибо! Мы записали, что " + label + ".";
@@ -1020,8 +1041,16 @@
         var nameEl = document.getElementById("rsvp-name");
         var surEl = document.getElementById("rsvp-surname");
         var name = ((nameEl && nameEl.value ? nameEl.value.trim() : "") + " " + (surEl && surEl.value ? surEl.value.trim() : "")).trim();
+        if (!name){
+          var wishEl = document.getElementById("wish-name");
+          if (wishEl && wishEl.value) name = wishEl.value.trim();
+        }
+        if (!name && db){
+          try { name = (db.getItem("mt_wed_guest_name") || "").trim(); } catch(err){}
+        }
+        if (!name) name = "Гость";
         var payload = {
-          name: name || "Гость",
+          name: name,
           kind: kind,
           option: (opts.find(function(o){ return o.querySelector("input").value === value; }) || {}).querySelector("label").textContent
         };
