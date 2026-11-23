@@ -550,7 +550,7 @@
     <div class="tl-item">
       <div class="tl-time">19:30</div>
       <div class="tl-dot"></div>
-      <div class="tl-card"><h4>Сбор гостей</h4><p>Встречаем гостей, живая музыка и первое угощение.</p></div>
+      <div class="tl-card"><h4>Сбор гостей</h4><p>Встречаем гостей, знакомство и первое угощение.</p></div>
     </div>
     <div class="tl-item">
       <div class="tl-time">20:00</div>
@@ -594,14 +594,15 @@
   <div class="section-head reveal">
     <p class="section-kicker">Дресс-код</p>
     <h2 class="section-title">Как одеваться</h2>
-    <p class="section-sub">Дресс-код вечерний. Палитра нашего вечера — хаки, оливковый и золото.</p>
+    <p class="section-sub">Дресс-код вечерний. Палитра нашего вечера — хаки, оливковый, золото, бежевый и коричневый.</p>
   </div>
   <div class="dress reveal">
     <div class="swatches">
       <div class="swatch"><i style="background:#5d6337"></i><span>Хаки</span></div>
       <div class="swatch"><i style="background:#8b9550"></i><span>Оливковый</span></div>
       <div class="swatch"><i style="background:#c2a24a"></i><span>Золото</span></div>
-      <div class="swatch"><i style="background:#f3eeda"></i><span>Кремовый</span></div>
+      <div class="swatch"><i style="background:#e3d5bb"></i><span>Бежевый</span></div>
+      <div class="swatch"><i style="background:#6d4c33"></i><span>Коричневый</span></div>
     </div>
   </div>
 </section>
@@ -757,6 +758,48 @@
       </div>
     </form>
     <p class="poll-voted" id="mt_wed_drinks_voted" role="status">Спасибо за голос! Вы выбрали <strong></strong>.</p>
+    <p class="poll-note">Голоса хранятся в этом браузере. У каждого устройства своя статистика.</p>
+  </div>
+</section>
+
+<section class="section" id="poll-food">
+  <div class="section-head reveal">
+    <p class="section-kicker">Голосование</p>
+    <h2 class="section-title">Что предпочитаете на горячее?</h2>
+    <p class="section-sub">Выберите блюдо, которое вам приготовить. Можно изменить выбор в любой момент.</p>
+  </div>
+  <div class="poll-card reveal">
+    <p class="poll-q">Ваш выбор горячего блюда…</p>
+    <form id="poll-food-form" class="poll-form" data-poll-key="mt_wed_food">
+      <div class="poll-opt" data-votes="0">
+        <input type="radio" name="food" id="f1" value="chicken">
+        <div class="poll-fill"></div>
+        <div class="poll-row">
+          <span class="poll-radio" aria-hidden="true"></span>
+          <span class="poll-name"><label for="f1">Курица</label></span>
+          <span class="poll-pct">0%</span>
+        </div>
+      </div>
+      <div class="poll-opt" data-votes="0">
+        <input type="radio" name="food" id="f2" value="pork">
+        <div class="poll-fill"></div>
+        <div class="poll-row">
+          <span class="poll-radio" aria-hidden="true"></span>
+          <span class="poll-name"><label for="f2">Свинина</label></span>
+          <span class="poll-pct">0%</span>
+        </div>
+      </div>
+      <div class="poll-opt" data-votes="0">
+        <input type="radio" name="food" id="f3" value="fish">
+        <div class="poll-fill"></div>
+        <div class="poll-row">
+          <span class="poll-radio" aria-hidden="true"></span>
+          <span class="poll-name"><label for="f3">Рыба</label></span>
+          <span class="poll-pct">0%</span>
+        </div>
+      </div>
+    </form>
+    <p class="poll-voted" id="mt_wed_food_voted" role="status">Спасибо за голос! Вы выбрали <strong></strong>.</p>
     <p class="poll-note">Голоса хранятся в этом браузере. У каждого устройства своя статистика.</p>
   </div>
 </section>
@@ -980,7 +1023,7 @@
           db.setItem(KEY + "_me", value);
         } catch(err){}
       } else { myVote = value; }
-      sendVoteToServer(value, KEY === "mt_wed_drinks" ? "drink" : "poll");
+      sendVoteToServer(value, KEY === "mt_wed_drinks" ? "drink" : (KEY === "mt_wed_food" ? "food" : "poll"));
       showMessage(value);
       compute();
     }
